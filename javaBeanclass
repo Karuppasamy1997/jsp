@@ -1,0 +1,35 @@
+example javaBean class
+package mypack;
+
+public class Employee implements java.io.Serializable {
+private int id;
+private String name;
+public Employee() {}
+	public void setid(int id) {
+		this.id=id;
+	}
+	public int getid() {
+		return id;
+	}
+	public void setname(String name) {
+		this.name=name;
+	}
+	public String getname() {
+		return name;
+	}
+
+
+}
+
+Access bean class
+package mypack;
+
+public class Test {
+public static void main (String [] args) {
+	Employee e=new Employee();
+	e.setid(1);
+	e.setname("karuppu");
+	System.out.println(e.getid());
+	System.out.println(e.getname());
+}
+}
