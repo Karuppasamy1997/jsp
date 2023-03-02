@@ -1,0 +1,69 @@
+index.jsp
+<%@page import="java.util.Calendar"%>
+<%@page import="org.apache.naming.java.javaURLContextFactory"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="welcome.jsp">  
+No1:<input type="text" name="n1" /><br/><br/>  
+No1:<input type="text" name="n2" /><br/><br/>  
+<input type="submit" value="divide"/>  
+</form>  
+</body>
+
+</html>
+welcome.jsp
+<%@page import="java.util.Calendar"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<body> 
+ 
+<%@ page errorPage="error.jsp" %>  
+<%  
+  
+String num=request.getParameter("t1");
+String num2=request.getParameter("t2");
+int a=Integer.parseInt(num);
+int b=Integer.parseInt(num2);
+int c=a/b;
+out.print(c);
+
+
+  
+%>  
+
+</body>  
+</body>
+</html>
+error.jsp
+<%@page import="java.util.Date"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<%@ page isErrorPage="true" %>  
+  
+<h3>Sorry an exception occured!</h3>  
+  
+Exception is: <%= exception %>  
+  
+</body>
+</html>
