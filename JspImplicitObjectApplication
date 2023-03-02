@@ -1,0 +1,57 @@
+web.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+	
+<servlet>
+<servlet-name>
+example</servlet-name>
+<jsp-file>/welcome.jsp
+</jsp-file>
+
+
+</servlet>
+<servlet-mapping>
+<servlet-name>example</servlet-name>
+<url-pattern>/welcome.jsp</url-pattern>
+</servlet-mapping>
+<context-param>
+<param-name>dname</param-name>
+<param-value>sun.jdbc.odbc.JdbcOdbcDriver</param-value>
+</context-param>
+
+</web-app>
+index.html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="welcome">  
+<input type="text" name="uname">  
+<input type="submit" value="go"><br/>  
+</form>  
+</body>
+</html>
+welcome.jsp
+<%@page import="java.util.Calendar"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<body>  
+<%   
+out.print("Welcome "+request.getParameter("uname"));  
+  
+String driver=config.getInitParameter("dname");  
+out.print("driver name is="+driver);  
+%>  
+</body>  
+</body>
+</html>
