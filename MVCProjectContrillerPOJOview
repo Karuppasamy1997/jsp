@@ -1,0 +1,170 @@
+controllerServlet
+package jspPageCreate;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.logging.LoggingMXBean;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * Servlet implementation class ControlllerServlet
+ */
+@WebServlet("/ControllerServlet")
+public class ControllerServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+
+
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doPost(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.setContentType("index2.jsp");
+		PrintWriter out=response.getWriter();
+		String name=request.getParameter("name");
+		String Password=request.getParameter("Password");
+		LoginBean bean=new LoginBean();
+		  bean.setName(name);  
+	        bean.setPassword(Password);  
+	        request.setAttribute("bean",bean);  
+		
+		boolean status=bean.validate();;
+	
+		if(status) {
+			RequestDispatcher rd=request.getRequestDispatcher("index.jsp");
+			rd.forward(request, response);
+			
+			
+		}
+		else {
+			RequestDispatcher rd=request.getRequestDispatcher("error.jsp");
+			rd.forward(request, response);
+			
+		}
+		
+		
+	}
+
+}
+-------------------------------
+POJO class
+package jspPageCreate;
+
+public class LoginBean {
+
+private String name,Password;
+
+public String getName() {
+	return name;
+}
+
+public void setName(String name) {
+	this.name = name;
+}
+
+public String getPassword() {
+	return Password;
+}
+
+public void setPassword(String Password) {
+	this.Password = Password;
+}
+
+public boolean validate() {
+	if(Password.equals("admin")) {
+		return true;
+	}
+	else {
+		return false;
+	}
+	// TODO Auto-generated method stub
+	
+}
+
+}
+-----------------
+view.jsp
+
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<%@ page import=" jspPageCreate.LoginBean" %>
+<p>You are successfully logged in!</p>  
+
+<%  LoginBean bean =(LoginBean)request.getAttribute("bean");
+         out.print("welcome,"+bean.getName()); 
+          %>
+</body>
+</html>
+-------------
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="/ControllerServlet" method="post">  
+Name:<input type="text" name="name"><br>  
+Password:<input type="Password" name="Password"><br>  
+<input type="submit" value="login">  
+</form> 
+</body>
+</html>
+------------
+Error.jsp
+<%@page import="java.util.Calendar"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  
+<title>Insert title here</title>
+</head>
+<body>
+
+<p>Sorry! username or password error</p>  
+<%@ include file="index.jsp" %>  
+    </body> 
+</body>
+</html>
+------------
+Web.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+	
+
+  <servlet>  
+  <servlet-name>s1</servlet-name>  
+  <servlet-class>jspPageCreate.ControllerServlet</servlet-class>  
+  </servlet>  
+  <servlet-mapping>  
+  <servlet-name>s1</servlet-name>  
+  <url-pattern>/ControllerServlet</url-pattern>  
+  </servlet-mapping>  
+
+</web-app>
+
+
