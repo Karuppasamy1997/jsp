@@ -1,0 +1,146 @@
+contraller class
+package DemoJsp;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+@WebServlet("/DemoJspClass")
+public class DemoJspClass extends HttpServlet {
+	  protected void doPost(HttpServletRequest request, HttpServletResponse response)  
+	            throws ServletException, IOException {  
+	        response.setContentType("text/html");  
+	        PrintWriter out=response.getWriter();  
+	          
+	        String name=request.getParameter("name");  
+	        String password=request.getParameter("password");  
+	          
+	        LoginBean bean=new LoginBean();  
+	        bean.setName(name);  
+	        bean.setPassword(password);  
+	        request.setAttribute("bean",bean);  
+	          
+	        boolean status=bean.validate();  
+	          
+	        if(status){  
+	            RequestDispatcher rd=request.getRequestDispatcher("Login-success.jsp");  
+	            rd.forward(request, response);  
+	        }  
+	        else{  
+	            RequestDispatcher rd=request.getRequestDispatcher("Login-error.jsp");  
+	            rd.forward(request, response);  
+	        }  
+	      
+	    }  
+	  
+	    @Override  
+	    protected void doGet(HttpServletRequest req, HttpServletResponse resp)  
+	            throws ServletException, IOException {  
+	        doPost(req, resp);  
+	    }  
+	}  
+
+------------------------
+LoginBeanClass
+package com.javatpoint;  
+public class LoginBean {  
+private String name,password;  
+  
+public String getName() {  
+    return name;  
+}  
+public void setName(String name) {  
+    this.name = name;  
+}  
+public String getPassword() {  
+    return password;  
+}  
+public void setPassword(String password) {  
+    this.password = password;  
+}  
+public boolean validate(){  
+    if(password.equals("admin")){  
+        return true;  
+    }  
+    else{  
+        return false;  
+    }  
+}  
+}  
+-----------------------------
+index.jsp
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="DemoJspClass" method="post">  
+Name:<input type="text" name="name"><br>  
+Password:<input type="password" name="password"><br>  
+<input type="submit" value="login">  
+</form>
+</body>
+</html>
+---------------
+Login-sucess.jsp
+<%@page import="DemoJsp.LoginBean"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+  
+<p>You are successfully logged in!</p>  
+<%  
+LoginBean bean=(LoginBean)request.getAttribute("bean");  
+out.print("Welcome, "+bean.getName());  
+%>  
+</body>
+</html>
+---------
+login-error
+<%@page import="DemoJsp.LoginBean"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<p>Sorry! username or password error</p>  
+<%@include file="index.jsp" %>   
+</body>
+</html>
+-------------
+Web.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   
+xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"   
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"   
+id="WebApp_ID" version="3.0">  
+    
+  <servlet>  
+  <servlet-name>s1</servlet-name>  
+  <servlet-class>DemoJsp.DemoJspClass</servlet-class>  
+  </servlet>  
+  <servlet-mapping>  
+  <servlet-name>s1</servlet-name>  
+  <url-pattern>/DemoJspClass</url-pattern>  
+  </servlet-mapping>  
+</web-app>  
